@@ -31,7 +31,6 @@ if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
         $handle->bindValue(':id', $_POST['id']);
         $message = 'Your record has been updated';
     }
-
     $handle->bindValue(':firstname', $_POST['firstname']);
     $handle->bindValue(':lastname', $_POST['lastname']);
     $handle->bindValue(':year', date('Y'));
@@ -48,9 +47,7 @@ if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
 
     //@todo Why does this loop not work? If only I could see the bigger picture.
     foreach ($_POST['sports'] as $sport) {
-        if (empty($_POST['id'])) {
-            $userId = $pdo->lastInsertId();
-        }
+        if (empty($_POST['id'])) $userId = $pdo->lastInsertId();
         $handle = $pdo->prepare('INSERT INTO sport (user_id, sport) VALUES (:userId, :sport)');
         $handle->bindValue(':userId', $userId);
         $handle->bindValue(':sport', $sport);
@@ -58,7 +55,7 @@ if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
     }
 } elseif (isset($_POST['delete'])) {
     //@todo BUG? Why does always delete all my users?
-    $handle = $pdo->prepare('DELETE FROM user where id = :id');
+    $handle = $pdo->prepare('DELETE FROM user WHERE id = :id');
     //The line below just gave me an error, probably not important. Annoying line.
     $handle->bindValue(':id', $_POST['id']);
     $handle->execute();
@@ -76,7 +73,7 @@ $saveLabel = 'Save record';
 if (!empty($_GET['id'])) {
     $saveLabel = 'Update record';
 
-    $handle = $pdo->prepare('SELECT id, firstname, lastname FROM user where id = :id');
+    $handle = $pdo->prepare('SELECT id, firstname, lastname FROM user WHERE id = :id');
     $handle->bindValue(':id', $_GET['id']);
     $handle->execute();
     $selectedUser = $handle->fetch();
