@@ -23,7 +23,7 @@ function openConnection(): PDO
 $pdo = openConnection();
 
 if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
-    //@todo possible bug below? 
+    //@todo possible bug below?
     if (!empty($_POST['id'])) {
         $handle = $pdo->prepare('INSERT INTO user (firstname, lastname, year) VALUES (:firstname, :lastname, :year)');
         $message = 'Your record has been added';
@@ -49,7 +49,7 @@ if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
 
     //@todo Why does this loop not work? If only I could see the bigger picture.
     foreach ($_POST['sports'] as $sport) {
-        $userId = $pdo->lastInsertId();
+        if (empty($_POST['id'])) $userId = $pdo->lastInsertId();
         $handle = $pdo->prepare('INSERT INTO sport (user_id, sport) VALUES (:userId, :sport)');
         $handle->bindValue(':userId', $userId);
         $handle->bindValue(':sport', $sport);
