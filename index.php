@@ -23,7 +23,7 @@ function openConnection(): PDO
 $pdo = openConnection();
 
 if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
-    //@todo possible bug below?
+    //@todo possible bug below? 
     if (!empty($_POST['id'])) {
         $handle = $pdo->prepare('INSERT INTO user (firstname, lastname, year) VALUES (:firstname, :lastname, :year)');
         $message = 'Your record has been added';
