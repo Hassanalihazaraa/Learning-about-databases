@@ -6,10 +6,7 @@ $sports = ['Football', 'Tennis', 'Ping pong', 'Volley ball', 'Rugby', 'Horse rid
 function openConnection(): PDO
 {
     // No bugs in this function, just use the right credentials.
-    $dbhost = "localhost";
-    $dbuser = "root";
-    $dbpass = "bU6H99%!";
-    $db = "sport";
+    require_once 'credentials.php';
 
     $driverOptions = [
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
@@ -49,7 +46,7 @@ if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
 
     //@todo Why does this loop not work? If only I could see the bigger picture.
     foreach ($_POST['sports'] as $sport) {
-        if (empty($_POST['id'])) $userId = $pdo->lastInsertId(); 
+        if (empty($_POST['id'])) $userId = $pdo->lastInsertId();
         $handle = $pdo->prepare('INSERT INTO sport (user_id, sport) VALUES (:userId, :sport)');
         $handle->bindValue(':userId', $userId);
         $handle->bindValue(':sport', $sport);
